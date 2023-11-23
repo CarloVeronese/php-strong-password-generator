@@ -1,8 +1,11 @@
 <?php
+session_start();
 require './functions.php';
-$passwordChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!£$&-_=?)(/';
 $getLength = $_GET['pw-length'] ?? 0;
-
+if($getLength > 0) {
+    $_SESSION["password"] = generatePassword($getLength);
+    header("Location: http://localhost:8888/php-strong-password-generator/password.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,9 +16,9 @@ $getLength = $_GET['pw-length'] ?? 0;
 </head>
 <body>
     <form action="" method="GET">
-        <input type="number" name="pw-length">
+        <label for="pw-length">Password Legth</label>
+        <input type="number" name="pw-length" required id="pw-length" min="5">
         <input type="submit" value="Send">
     </form>
-    <h1><?php if($getLength > 0) {?>Your password is: <?php } echo generatePassword($passwordChars, $getLength, $password); ?></h1>
 </body>
 </html>
